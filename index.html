@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستەمی تۆماری نمرەی خوێندکاران  </title>
+    <title>سیستەمی تۆماری نمرەی خوێندکاران - Bako Xafur</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -708,23 +708,23 @@
 
     <!-- Sidebar Controls -->
     <div class="sidebar">
-        <h2><i class="fa-solid fa-graduation-cap"></i> کۆنترۆڵی کارتەکان</h2>
+        <h2 id="sidebarTitle"><i class="fa-solid fa-graduation-cap"></i> <span id="sidebarTitleText">کۆنترۆڵی کارتەکان</span></h2>
 
         <!-- Storage Group -->
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-box-archive"></i> پاشەکەوتکردن (لوکاڵی لەناو پڕۆژەکە)</div>
+            <div class="section-title"><i class="fa-solid fa-box-archive"></i> <span id="ui-storageTitle">پاشەکەوتکردن (لوکاڵی لەناو پڕۆژەکە)</span></div>
             <div class="btn-row">
-                <button class="btn btn-success" onclick="promptSaveNamed()"><i class="fa-solid fa-save"></i> پاشەکەوتکردن بە ناو</button>
-                <button class="btn" onclick="openSavedFilesModal()"><i class="fa-solid fa-folder-open"></i> کردنەوەی فایل</button>
+                <button class="btn btn-success" onclick="promptSaveNamed()"><i class="fa-solid fa-save"></i> <span id="ui-saveNamed">پاشەکەوتکردن بە ناو</span></button>
+                <button class="btn" onclick="openSavedFilesModal()"><i class="fa-solid fa-folder-open"></i> <span id="ui-openFile">کردنەوەی فایل</span></button>
             </div>
-            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;" id="ui-storageDesc">
                 هەموو زانیارییەکان لەناو خودی ئەم پڕۆژەیە (براوزەرەکەت) پاشەکەوت دەکرێن، پێویست بە هیچ فایلێکی دەرەکی لەسەر کۆمپیوتەرەکەت ناکات. دەتوانیت چەند تۆمارێک بە ناوی جیاواز پاشەکەوت بکەیت و دواتر بیانکەیتەوە.
             </div>
         </div>
 
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-language"></i> زمانی کارت</div>
-            <label>زمان:
+            <div class="section-title"><i class="fa-solid fa-language"></i> <span id="ui-langTitle">زمانی کارت</span></div>
+            <label><span id="ui-langLabel">زمان:</span>
                 <select id="langSelect" onchange="setLanguage(this.value)">
                     <option value="sorani">کوردی سۆرانی</option>
                     <option value="badini">کوردی بادینی</option>
@@ -737,78 +737,78 @@
         </div>
 
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-layer-group"></i> پۆل / قۆناخ</div>
-            <label>پۆل:
+            <div class="section-title"><i class="fa-solid fa-layer-group"></i> <span id="ui-gradeTitle">پۆل / قۆناخ</span></div>
+            <label><span id="ui-gradeLabel">پۆل:</span>
                 <select id="gradeSelect" onchange="setGrade(this.value)">
-                    <option value="">قۆناخەکانی تر</option>
-                    <option value="9">پۆلی نۆیەم</option>
-                    <option value="12">پۆلی دوازدەیەم</option>
+                    <option value="" id="ui-gradeOther">قۆناخەکانی تر</option>
+                    <option value="9" id="ui-grade9">پۆلی نۆیەم</option>
+                    <option value="12" id="ui-grade12">پۆلی دوازدەیەم</option>
                 </select>
             </label>
-            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;" id="ui-gradeDesc">
                 لە پۆلی ٩ و ١٢ کارتەکە بەبێ "خولی دووەم" دروست دەبێت، لە قۆناخەکانی تر خولی دووەمیش زیاد دەکرێت.
             </div>
         </div>
 
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-sliders"></i> کردارە سەرەکییەکان</div>
-            <button class="btn btn-primary" onclick="addNewCard()"><i class="fa-solid fa-plus"></i> کارتی نوێ (A4)</button>
-            <button class="btn btn-primary" style="background-color: #10b981; color: white;" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> داگرتن بە PDF</button>
-            <button class="btn" onclick="showAboutModal()"><i class="fa-solid fa-circle-info"></i> دەربارە</button>
+            <div class="section-title"><i class="fa-solid fa-sliders"></i> <span id="ui-actionsTitle">کردارە سەرەکییەکان</span></div>
+            <button class="btn btn-primary" onclick="addNewCard()"><i class="fa-solid fa-plus"></i> <span id="ui-newCard">کارتی نوێ (A4)</span></button>
+            <button class="btn btn-primary" style="background-color: #10b981; color: white;" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> <span id="ui-downloadPdf">داگرتن بە PDF</span></button>
+            <button class="btn" onclick="showAboutModal()"><i class="fa-solid fa-circle-info"></i> <span id="ui-about">دەربارە</span></button>
         </div>
 
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-font"></i> فۆڕماتی دەق و شێواز</div>
+            <div class="section-title"><i class="fa-solid fa-font"></i> <span id="ui-formatTitle">فۆڕماتی دەق و شێواز</span></div>
             <div class="btn-row">
                 <button class="btn" title="Bold" onclick="applyFormat('bold')"><i class="fa-solid fa-bold"></i></button>
                 <button class="btn" title="Italic" onclick="applyFormat('italic')"><i class="fa-solid fa-italic"></i></button>
                 <button class="btn" title="Underline" onclick="applyFormat('underline')"><i class="fa-solid fa-underline"></i></button>
             </div>
             
-            <label>ڕەنگی نوسین:
+            <label><span id="ui-textColor">ڕەنگی نوسین:</span>
                 <input type="color" id="textColorPicker" value="#000000" onchange="applyTextColor(this.value)">
             </label>
 
-            <label>ڕەنگی باکگراوندی خانە:
+            <label><span id="ui-cellBg">ڕەنگی باکگراوندی خانە:</span>
                 <input type="color" id="cellBgPicker" value="#ffffff" onchange="applyCellBg(this.value)">
             </label>
         </div>
 
         <!-- Card Colors -->
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-palette"></i> ڕەنگی باکگراوندی کارتەکە</div>
+            <div class="section-title"><i class="fa-solid fa-palette"></i> <span id="ui-cardBgTitle">ڕەنگی باکگراوندی کارتەکە</span></div>
             <div class="btn-row">
-                <button class="btn" style="background: #ffffff; color: #000;" onclick="setCardBg('bg-white')">سپی</button>
-                <button class="btn" style="background: #fef08a; color: #000;" onclick="setCardBg('bg-yellow')">زەرد</button>
-                <button class="btn" style="background: #fbcfe8; color: #000;" onclick="setCardBg('bg-pink')">پەمەیی</button>
+                <button class="btn" style="background: #ffffff; color: #000;" onclick="setCardBg('bg-white')" id="ui-white">سپی</button>
+                <button class="btn" style="background: #fef08a; color: #000;" onclick="setCardBg('bg-yellow')" id="ui-yellow">زەرد</button>
+                <button class="btn" style="background: #fbcfe8; color: #000;" onclick="setCardBg('bg-pink')" id="ui-pink">پەمەیی</button>
             </div>
             <div class="btn-row" style="margin-top: 5px;">
-                <button class="btn" style="background: #38bdf8; color: #000;" onclick="setCardBg('bg-blue')">شین</button>
-                <button class="btn" style="background: #4ade80; color: #000;" onclick="setCardBg('bg-green')">سەوز</button>
+                <button class="btn" style="background: #38bdf8; color: #000;" onclick="setCardBg('bg-blue')" id="ui-blue">شین</button>
+                <button class="btn" style="background: #4ade80; color: #000;" onclick="setCardBg('bg-green')" id="ui-green">سەوز</button>
             </div>
         </div>
 
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-vector-square"></i> شەیپی لاکێشە</div>
-            <button class="btn" onclick="addCustomShape()"><i class="fa-solid fa-square-plus"></i> زیاده‌کردنی لاکێشە</button>
-            <label>ڕەنگی باکگراوندی شەیپ:
+            <div class="section-title"><i class="fa-solid fa-vector-square"></i> <span id="ui-shapeTitle">شەیپی لاکێشە</span></div>
+            <button class="btn" onclick="addCustomShape()"><i class="fa-solid fa-square-plus"></i> <span id="ui-addShape">زیاده‌کردنی لاکێشە</span></button>
+            <label><span id="ui-shapeBg">ڕەنگی باکگراوندی شەیپ:</span>
                 <input type="color" id="shapeBgPicker" value="#ffffff" onchange="updateSelectedShapeBg(this.value)">
             </label>
         </div>
 
         <!-- Logo Upload -->
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-image"></i> لۆگۆ</div>
-            <button class="btn" onclick="document.getElementById('logoFileInput').click()"><i class="fa-solid fa-upload"></i> زیادکردنی لۆگۆ</button>
+            <div class="section-title"><i class="fa-solid fa-image"></i> <span id="ui-logoTitle">لۆگۆ</span></div>
+            <button class="btn" onclick="document.getElementById('logoFileInput').click()"><i class="fa-solid fa-upload"></i> <span id="ui-addLogo">زیادکردنی لۆگۆ</span></button>
             <input type="file" id="logoFileInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
-            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;" id="ui-logoDesc">
                 دوای زیادکردن، لۆگۆکە دەتوانیت بە ڕاکێشان بۆ هەر شوێنێکی لاپەڕەکە بجوڵێنیت، وە لە گۆشەی خوارەوەی چەپ قەبارەکەی بگۆڕیت.
             </div>
         </div>
 
         <!-- Advanced Calculator Tool -->
         <div class="tool-group">
-            <div class="section-title"><i class="fa-solid fa-calculator"></i> حاسیبەی پێشکەوتوو</div>
+            <div class="section-title"><i class="fa-solid fa-calculator"></i> <span id="ui-calcTitle">حاسیبەی پێشکەوتوو</span></div>
             <div class="adv-calc-container">
                 <input type="text" id="calcDisplay" class="calc-display" readonly value="0">
                 <div class="calc-grid">
@@ -852,9 +852,9 @@
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <i class="fa-solid fa-code" style="font-size: 3rem; color: var(--accent-yellow); margin-bottom: 10px;"></i>
-            <h3>دەربارەی بەرنامە</h3>
-            <p>ئەم ئەپڵیکەیشنە ئامادەکراوە لەلایەن Bako Xafur پڕۆگرامەر و شارەزای بواری پڕۆگرامینگ</p>
-            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="closeAboutModal()">داخستن</button>
+            <h3 id="ui-aboutModalTitle">دەربارەی بەرنامە</h3>
+            <p id="ui-aboutModalText">ئەم ئەپڵیکەیشنە ئامادەکراوە لەلایەن Bako Xafur پڕۆگرامەر و شارەزای بواری پڕۆگرامینگ</p>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="closeAboutModal()" id="ui-closeAbout">داخستن</button>
         </div>
     </div>
 
@@ -862,9 +862,9 @@
     <div class="modal" id="savedFilesModal">
         <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
             <i class="fa-solid fa-folder-open" style="font-size: 3rem; color: var(--accent-yellow); margin-bottom: 10px;"></i>
-            <h3>فایلە پاشەکەوتکراوەکان</h3>
+            <h3 id="ui-savedFilesTitle">فایلە پاشەکەوتکراوەکان</h3>
             <div id="savedFilesList" style="text-align: right; margin-top: 15px;"></div>
-            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="closeSavedFilesModal()">داخستن</button>
+            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="closeSavedFilesModal()" id="ui-closeSavedFiles">داخستن</button>
         </div>
     </div>
 
@@ -1120,12 +1120,145 @@
     }
 };
 
+        /* Translations for the sidebar control panel itself, kept in sync with
+           whichever card language is selected. */
+        const SIDEBAR_TEXTS = {
+            sorani: {
+                sidebarTitle: 'کۆنترۆڵی کارتەکان', storageTitle: 'پاشەکەوتکردن (لوکاڵی لەناو پڕۆژەکە)',
+                saveNamed: 'پاشەکەوتکردن بە ناو', openFile: 'کردنەوەی فایل',
+                storageDesc: 'هەموو زانیارییەکان لەناو خودی ئەم پڕۆژەیە (براوزەرەکەت) پاشەکەوت دەکرێن، پێویست بە هیچ فایلێکی دەرەکی لەسەر کۆمپیوتەرەکەت ناکات. دەتوانیت چەند تۆمارێک بە ناوی جیاواز پاشەکەوت بکەیت و دواتر بیانکەیتەوە.',
+                langTitle: 'زمانی کارت', langLabel: 'زمان:', gradeTitle: 'پۆل / قۆناخ', gradeLabel: 'پۆل:',
+                gradeOther: 'قۆناخەکانی تر', grade9: 'پۆلی نۆیەم', grade12: 'پۆلی دوازدەیەم',
+                gradeDesc: 'لە پۆلی ٩ و ١٢ کارتەکە بەبێ "خولی دووەم" دروست دەبێت، لە قۆناخەکانی تر خولی دووەمیش زیاد دەکرێت.',
+                actionsTitle: 'کردارە سەرەکییەکان', newCard: 'کارتی نوێ (A4)', downloadPdf: 'داگرتن بە PDF', about: 'دەربارە',
+                formatTitle: 'فۆڕماتی دەق و شێواز', textColor: 'ڕەنگی نوسین:', cellBg: 'ڕەنگی باکگراوندی خانە:',
+                cardBgTitle: 'ڕەنگی باکگراوندی کارتەکە', white: 'سپی', yellow: 'زەرد', pink: 'پەمەیی', blue: 'شین', green: 'سەوز',
+                shapeTitle: 'شەیپی لاکێشە', addShape: 'زیاده‌کردنی لاکێشە', shapeBg: 'ڕەنگی باکگراوندی شەیپ:',
+                logoTitle: 'لۆگۆ', addLogo: 'زیادکردنی لۆگۆ',
+                logoDesc: 'دوای زیادکردن، لۆگۆکە دەتوانیت بە ڕاکێشان بۆ هەر شوێنێکی لاپەڕەکە بجوڵێنیت، وە لە گۆشەی خوارەوەی چەپ قەبارەکەی بگۆڕیت.',
+                calcTitle: 'حاسیبەی پێشکەوتوو', aboutModalTitle: 'دەربارەی بەرنامە',
+                aboutModalText: 'ئەم ئەپڵیکەیشنە ئامادەکراوە لەلایەن Bako Xafur پڕۆگرامەر و شارەزای بواری پڕۆگرامینگ',
+                close: 'داخستن', savedFilesTitle: 'فایلە پاشەکەوتکراوەکان'
+            },
+            badini: {
+                sidebarTitle: 'کۆنترۆلا کارتان', storageTitle: 'پاشەکەوتکرن (لۆکالی د پرۆژەیێ دا)',
+                saveNamed: 'پاشەکەوتکرن بناڤ', openFile: 'ڤەکرنا فایلی',
+                storageDesc: 'هەمی زانیاری د ناڤ ڤی پرۆژەیی دا (وێبگەرێ تە) پاشەکەوت دبن، پێدڤی ب هیچ فایلەکی دەرڤەیی ل سەر کۆمپیوتەرێ تە نینە. تو دشێی چەند تۆمارەکێ ب ناڤێ جودا پاشەکەوت بکەی و پاشی وان ڤەکەی.',
+                langTitle: 'زمانێ کارتێ', langLabel: 'زمان:', gradeTitle: 'پۆل / قۆناغ', gradeLabel: 'پۆل:',
+                gradeOther: 'قۆناغێن دی', grade9: 'پۆلا نۆیێ', grade12: 'پۆلا دوازدەیێ',
+                gradeDesc: 'د پۆلا ٩ و ١٢ دا کارت بێ "خولا دووێ" چێدبیت، د قۆناغێن دی دا خولا دووێ ژی زێدە دبیت.',
+                actionsTitle: 'کریارێن سەرەکی', newCard: 'کارتەکا نوی (A4)', downloadPdf: 'دابەزاندن وەک PDF', about: 'دەربارە',
+                formatTitle: 'فۆرماتا نڤیسینێ و شێواز', textColor: 'رەنگێ نڤیسینێ:', cellBg: 'رەنگێ باکگراوندێ خانێ:',
+                cardBgTitle: 'رەنگێ باکگراوندێ کارتێ', white: 'سپی', yellow: 'زەر', pink: 'پەمەیی', blue: 'شین', green: 'سەوز',
+                shapeTitle: 'شێپێ ڕاکێشانێ', addShape: 'زێدەکرنا شێپی', shapeBg: 'رەنگێ باکگراوندێ شێپی:',
+                logoTitle: 'لۆگۆ', addLogo: 'زێدەکرنا لۆگۆیی',
+                logoDesc: 'پشتی زێدەکرنێ، تو دشێی لۆگۆیی بۆ هەر شوینەکی لاپەڕێ بجولینی، و ژ گۆشێ خوارین یێ چەپ قەبارێ بگۆهۆرینی.',
+                calcTitle: 'ماشینا هژمارتنێ یا پێشکەفتی', aboutModalTitle: 'دەربارێ پرۆگرامی',
+                aboutModalText: 'ئەڤ ئەپلیکەیشنە ژلایێ Bako Xafur پرۆگرامەر و شارەزایێ بواری پرۆگرامینگ ڤە هاتیە ئامادەکرن.',
+                close: 'داخستن', savedFilesTitle: 'فایلێن پاشەکەوتکری'
+            },
+            english: {
+                sidebarTitle: 'Card Control Panel', storageTitle: 'Save (Local to this Project)',
+                saveNamed: 'Save As', openFile: 'Open File',
+                storageDesc: 'All data is saved locally within this project (your browser); no external file on your computer is required. You can save multiple records under different names and reopen them later.',
+                langTitle: 'Card Language', langLabel: 'Language:', gradeTitle: 'Grade / Level', gradeLabel: 'Grade:',
+                gradeOther: 'Other Levels', grade9: 'Grade 9', grade12: 'Grade 12',
+                gradeDesc: 'For grades 9 and 12 the card is created without a "Second Round"; other levels also include the second round.',
+                actionsTitle: 'Main Actions', newCard: 'New Card (A4)', downloadPdf: 'Download as PDF', about: 'About',
+                formatTitle: 'Text Format & Style', textColor: 'Text Color:', cellBg: 'Cell Background Color:',
+                cardBgTitle: 'Card Background Color', white: 'White', yellow: 'Yellow', pink: 'Pink', blue: 'Blue', green: 'Green',
+                shapeTitle: 'Draggable Shape', addShape: 'Add Shape', shapeBg: 'Shape Background Color:',
+                logoTitle: 'Logo', addLogo: 'Add Logo',
+                logoDesc: 'After adding, you can drag the logo anywhere on the page and resize it from the bottom-left corner.',
+                calcTitle: 'Advanced Calculator', aboutModalTitle: 'About the Program',
+                aboutModalText: 'This application was developed by Bako Xafur, a programmer and software specialist.',
+                close: 'Close', savedFilesTitle: 'Saved Files'
+            },
+            arabic: {
+                sidebarTitle: 'لوحة التحكم بالبطاقات', storageTitle: 'الحفظ (محليًا داخل المشروع)',
+                saveNamed: 'حفظ باسم', openFile: 'فتح ملف',
+                storageDesc: 'تُحفظ جميع البيانات محليًا داخل هذا المشروع (المتصفح)، ولا حاجة لأي ملف خارجي على جهازك. يمكنك حفظ عدة سجلات بأسماء مختلفة وفتحها لاحقًا.',
+                langTitle: 'لغة البطاقة', langLabel: 'اللغة:', gradeTitle: 'الصف / المرحلة', gradeLabel: 'الصف:',
+                gradeOther: 'مراحل أخرى', grade9: 'الصف التاسع', grade12: 'الصف الثاني عشر',
+                gradeDesc: 'في الصفين التاسع والثاني عشر تُنشأ البطاقة بدون "الدور الثاني"، وفي بقية المراحل يُضاف الدور الثاني أيضًا.',
+                actionsTitle: 'الإجراءات الرئيسية', newCard: 'بطاقة جديدة (A4)', downloadPdf: 'تنزيل كـ PDF', about: 'حول',
+                formatTitle: 'تنسيق النص والنمط', textColor: 'لون النص:', cellBg: 'لون خلفية الخلية:',
+                cardBgTitle: 'لون خلفية البطاقة', white: 'أبيض', yellow: 'أصفر', pink: 'وردي', blue: 'أزرق', green: 'أخضر',
+                shapeTitle: 'شكل قابل للسحب', addShape: 'إضافة شكل', shapeBg: 'لون خلفية الشكل:',
+                logoTitle: 'الشعار', addLogo: 'إضافة شعار',
+                logoDesc: 'بعد الإضافة، يمكنك سحب الشعار إلى أي مكان في الصفحة وتغيير حجمه من الزاوية السفلية اليسرى.',
+                calcTitle: 'آلة حاسبة متقدمة', aboutModalTitle: 'حول البرنامج',
+                aboutModalText: 'تم إعداد هذا التطبيق من قبل Bako Xafur، مبرمج ومختص في مجال البرمجة.',
+                close: 'إغلاق', savedFilesTitle: 'الملفات المحفوظة'
+            },
+            syriac: {
+                sidebarTitle: 'ܡܕܲܒܪܵܢܘܼܬܵܐ ܕܟܲܪ̈ܛܹܐ', storageTitle: 'ܢܛܵܪܬܵܐ (ܓܵܘܵܝܵܐ ܒܦܪܘܿܝܹܟܬ)',
+                saveNamed: 'ܢܛܵܪܬܵܐ ܒܫܸܡܵܐ', openFile: 'ܦܬܵܚܵܐ ܕܦܵܝܸܠ',
+                storageDesc: 'ܟܠ ܝܼܕܲܥܬܵܐ ܡܸܬܢܲܛܪܵܐ ܓܵܘ ܗܵܢ ܦܪܘܿܝܹܟܬ (ܒܪܵܘܙܸܪ ܕܝܼܕܘܟ), ܠܵܐ ܣܢܝܼܩ ܠܦܵܝܸܠ ܒܵܪܵܝܵܐ ܥܲܠ ܟܘܼܡܦܝܘܼܬܸܪ ܕܝܼܕܘܟ.',
+                langTitle: 'ܠܸܫܵܢܵܐ ܕܟܲܪܛܵܐ', langLabel: 'ܠܸܫܵܢܵܐ:', gradeTitle: 'ܨܸܦ݂ܪܵܐ / ܕܲܪܓܵܐ', gradeLabel: 'ܨܸܦ݂ܪܵܐ:',
+                gradeOther: 'ܕܲܪ̈ܓܹܐ ܐ݇ܚܹܪ̈ܢܹܐ', grade9: 'ܨܸܦ݂ܪܵܐ ܬܫܝܼܥܵܝܵܐ', grade12: 'ܨܸܦ݂ܪܵܐ ܬܪܸܥܣܲܪܵܝܵܐ',
+                gradeDesc: 'ܒܨܸܦ݂ܪܵܐ ٩ ܘ١٢ ܟܲܪܛܵܐ ܡܸܬܥܲܒ݂ܕܵܐ ܒܠܵܐ "ܕܵܘܪܵܐ ܬܪܲܝܵܢܵܐ", ܒܕܲܪ̈ܓܹܐ ܐ݇ܚܹܪ̈ܢܹܐ ܕܵܘܪܵܐ ܬܪܲܝܵܢܵܐ ܡܸܬܬܵܘܣܦܵܐ.',
+                actionsTitle: 'ܥܒ݂ܵܕܹ̈ܐ ܥܝܼܩܵܪܵܝܹ̈ܐ', newCard: 'ܟܲܪܛܵܐ ܚܲܕܬܵܐ (A4)', downloadPdf: 'ܢܚܵܬܬܵܐ ܐܲܝܟ݂ PDF', about: 'ܐܵܘܕܘܼܬܵܐ',
+                formatTitle: 'ܦܘܼܪܡܵܛ ܕܟܬܵܒ݂ܵܐ ܘܛܘܼܦܣܵܐ', textColor: 'ܓܵܘܢܵܐ ܕܟܬܵܒ݂ܵܐ:', cellBg: 'ܓܵܘܢܵܐ ܕܒܸܝܬ݂ ܓܵܘܵܐ ܕܚܘܼܠܵܐ:',
+                cardBgTitle: 'ܓܵܘܢܵܐ ܕܒܸܝܬ݂ ܓܵܘܵܐ ܕܟܲܪܛܵܐ', white: 'ܚܸܘܵܪܵܐ', yellow: 'ܙܲܪܕܵܐ', pink: 'ܘܲܪܕܵܝܵܐ', blue: 'ܟܝܼܘܵܢܵܝܵܐ', green: 'ܝܘܼܪܲܩܵܐ',
+                shapeTitle: 'ܨܘܼܪܬܵܐ ܓܵܪܘܼܫܬܵܐ', addShape: 'ܬܵܘܣܵܦܬܵܐ ܕܨܘܼܪܬܵܐ', shapeBg: 'ܓܵܘܢܵܐ ܕܒܸܝܬ݂ ܓܵܘܵܐ ܕܨܘܼܪܬܵܐ:',
+                logoTitle: 'ܠܵܘܓܘܿ', addLogo: 'ܬܵܘܣܵܦܬܵܐ ܕܠܵܘܓܘܿ',
+                logoDesc: 'ܒܵܬܲܪ ܬܵܘܣܵܦܬܵܐ، ܡܵܨܹܐ ܗ݇ܘܹܝܬ ܓܵܪܹܫ ܠܵܘܓܘܿ ܠܟ݂ܠ ܕܘܼܟܵܐ ܕܦܵܬ݂ܵܐ ܘܫܲܚܠܸܦ ܩܵܘܡܹܗ ܡ ܙܵܘܝܼܬܵܐ ܬܲܚܬܵܝܬܵܐ ܣܡܵܠܵܝܬܵܐ.',
+                calcTitle: 'ܡܵܣܵܒ ܡܬܲܩܲܕܡܵܐ', aboutModalTitle: 'ܐܵܘܕܘܼܬܵܐ ܕܦܪܘܿܓܪܵܡ',
+                aboutModalText: 'ܗܵܢ ܐܲܦܠܝܼܟܹܝܫܢ ܥܒ݂ܝܼܕܵܐ ܡ݇ܢ Bako Xafur، ܦܪܘܿܓܪܵܡܸܪ ܘܡܝܼܕܥܵܢܵܐ ܒܦܪܘܿܓܪܵܡܝܼܢܓ.',
+                close: 'ܣܝܵܟ݂ܵܐ', savedFilesTitle: 'ܦܵܝܸ̈ܠ ܢܛܝܼܪܹ̈ܐ'
+            },
+            turkmen: {
+                sidebarTitle: 'Kart Kontrol Paneli', storageTitle: 'Kaydetme (Proje İçinde Yerel)',
+                saveNamed: 'İsimle Kaydet', openFile: 'Dosya Aç',
+                storageDesc: 'Tüm veriler bu proje içinde (tarayıcınızda) yerel olarak kaydedilir, bilgisayarınızda harici bir dosyaya gerek yoktur. Farklı isimlerle birden fazla kayıt saklayıp daha sonra açabilirsiniz.',
+                langTitle: 'Kart Dili', langLabel: 'Dil:', gradeTitle: 'Sınıf / Kademe', gradeLabel: 'Sınıf:',
+                gradeOther: 'Diğer Kademeler', grade9: '9. Sınıf', grade12: '12. Sınıf',
+                gradeDesc: '9. ve 12. sınıflarda kart "İkinci Dönem" olmadan oluşturulur, diğer kademelerde ikinci dönem de eklenir.',
+                actionsTitle: 'Ana İşlemler', newCard: 'Yeni Kart (A4)', downloadPdf: 'PDF Olarak İndir', about: 'Hakkında',
+                formatTitle: 'Metin Biçimi ve Stil', textColor: 'Yazı Rengi:', cellBg: 'Hücre Arka Plan Rengi:',
+                cardBgTitle: 'Kart Arka Plan Rengi', white: 'Beyaz', yellow: 'Sarı', pink: 'Pembe', blue: 'Mavi', green: 'Yeşil',
+                shapeTitle: 'Sürüklenebilir Şekil', addShape: 'Şekil Ekle', shapeBg: 'Şekil Arka Plan Rengi:',
+                logoTitle: 'Logo', addLogo: 'Logo Ekle',
+                logoDesc: 'Ekledikten sonra logoyu sayfanın herhangi bir yerine sürükleyebilir ve sol alt köşeden boyutunu değiştirebilirsiniz.',
+                calcTitle: 'Gelişmiş Hesap Makinesi', aboutModalTitle: 'Program Hakkında',
+                aboutModalText: 'Bu uygulama, programcı ve yazılım uzmanı Bako Xafur tarafından hazırlanmıştır.',
+                close: 'Kapat', savedFilesTitle: 'Kayıtlı Dosyalar'
+            }
+        };
+
+        /* Updates every static text label in the sidebar control panel to match
+           the given card language, so the panel itself follows the card's language. */
+        function translateSidebar(lang) {
+            const t = SIDEBAR_TEXTS[lang] || SIDEBAR_TEXTS.sorani;
+            const map = {
+                sidebarTitleText: t.sidebarTitle, 'ui-storageTitle': t.storageTitle,
+                'ui-saveNamed': t.saveNamed, 'ui-openFile': t.openFile, 'ui-storageDesc': t.storageDesc,
+                'ui-langTitle': t.langTitle, 'ui-langLabel': t.langLabel,
+                'ui-gradeTitle': t.gradeTitle, 'ui-gradeLabel': t.gradeLabel,
+                'ui-gradeOther': t.gradeOther, 'ui-grade9': t.grade9, 'ui-grade12': t.grade12, 'ui-gradeDesc': t.gradeDesc,
+                'ui-actionsTitle': t.actionsTitle, 'ui-newCard': t.newCard, 'ui-downloadPdf': t.downloadPdf, 'ui-about': t.about,
+                'ui-formatTitle': t.formatTitle, 'ui-textColor': t.textColor, 'ui-cellBg': t.cellBg,
+                'ui-cardBgTitle': t.cardBgTitle, 'ui-white': t.white, 'ui-yellow': t.yellow, 'ui-pink': t.pink, 'ui-blue': t.blue, 'ui-green': t.green,
+                'ui-shapeTitle': t.shapeTitle, 'ui-addShape': t.addShape, 'ui-shapeBg': t.shapeBg,
+                'ui-logoTitle': t.logoTitle, 'ui-addLogo': t.addLogo, 'ui-logoDesc': t.logoDesc,
+                'ui-calcTitle': t.calcTitle, 'ui-aboutModalTitle': t.aboutModalTitle, 'ui-aboutModalText': t.aboutModalText,
+                'ui-closeAbout': t.close, 'ui-savedFilesTitle': t.savedFilesTitle, 'ui-closeSavedFiles': t.close
+            };
+            Object.keys(map).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = map[id];
+            });
+        }
+
         function setLanguage(lang) {
             const previous = currentLang;
             currentLang = lang;
+            translateSidebar(lang);
             refreshExistingCards(() => {
                 currentLang = previous;
                 document.getElementById('langSelect').value = previous;
+                translateSidebar(previous);
             });
         }
 
