@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی تۆماری نمرەی خوێندکاران - Bako Xafur</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --panel-bg: #1e1e1e;
+            --accent-yellow: #f59e0b;
+            --accent-yellow-hover: #d97706;
+            --text-light: #f3f4f6;
+            --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', 'Noto Naskh Arabic', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Control Panel */
+        .sidebar {
+            width: 380px;
+            background-color: var(--panel-bg);
+            border-left: 2px solid var(--accent-yellow);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .sidebar h2 {
+            color: var(--accent-yellow);
+            font-size: 1.3rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-yellow);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--accent-yellow);
+            margin-top: 10px;
+            margin-bottom: 5px;
+            border-right: 3px solid var(--accent-yellow);
+            padding-right: 8px;
+        }
+
+        .tool-group {
+            background: #2a2a2a;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .btn:hover {
+            background-color: #444;
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-yellow);
+            color: #000;
+            border: none;
+            font-weight: bold;
+        }
+
+        .btn-success {
+            background-color: #10b981;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        select, input[type="color"] {
+            background: #181818;
+            color: white;
+            border: 1px solid #444;
+            padding: 5px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* Advanced Calculator Styles */
+        .adv-calc-container {
+            background: #141419;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .calc-display {
+            width: 100%;
+            height: 45px;
+            background: #09090b;
+            color: #38bdf8;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            text-align: right;
+            padding: 8px 12px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin-bottom: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            direction: ltr;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .calc-btn {
+            padding: 10px 4px;
+            background: #27272a;
+            color: #f4f4f5;
+            border: 1px solid #3f3f46;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.15s ease;
+        }
+
+        .calc-btn:hover {
+            background: #3f3f46;
+            border-color: var(--accent-yellow);
+        }
+
+        .calc-btn-op {
+            background: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .calc-btn-op:hover {
+            background: #2563eb;
+        }
+
+        .calc-btn-sci {
+            background: #1e293b;
+            color: #f59e0b;
+            border-color: #334155;
+        }
+
+        .calc-btn-sci:hover {
+            background: #334155;
+        }
+
+        .calc-btn-eq {
+            background: var(--accent-yellow);
+            color: #000;
+            border-color: #d97706;
+            grid-column: span 2;
+        }
+
+        .calc-btn-eq:hover {
+            background: #d97706;
+        }
+
+        .calc-btn-clear {
+            background: #ef4444;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .calc-btn-clear:hover {
+            background: #dc2626;
+        }
+
+        /* Workspace Area */
+        .workspace {
+            flex: 1;
+            background-color: #0d0d0d;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            position: relative;
+        }
+
+        /* A4 Page Container */
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            height: auto;
+            background-color: #ffffff;
+            color: #000;
+            padding: 12mm;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            box-sizing: border-box;
+            margin: 0 auto;
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .a4-page.bg-white { background-color: #ffffff !important; }
+        .a4-page.bg-yellow { background-color: #fef9c3 !important; }
+        .a4-page.bg-pink { background-color: #fce7f3 !important; }
+        .a4-page.bg-blue { background-color: #e0f2fe !important; }
+        .a4-page.bg-green { background-color: #dcfce7 !important; }
+
+        /* Floating per-card delete button — absolutely positioned so it never
+           pushes the card's own content down or affects its layout */
+        .card-delete-btn {
+            position: absolute;
+            top: 8mm;
+            left: 8mm;
+            width: 30px;
+            height: 30px;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 60;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+
+        .a4-page:hover .card-delete-btn { display: flex; }
+
+        /* Floating per-card duplicate button, sits beside the delete button */
+        .card-duplicate-btn {
+            position: absolute;
+            top: 8mm;
+            left: 44mm;
+            width: 30px;
+            height: 30px;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 60;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+
+        .a4-page:hover .card-duplicate-btn { display: flex; }
+
+        /* Document Header Layout Adjustments - Shifted towards Right */
+        .card-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            direction: rtl;
+            gap: 10px;
+        }
+
+        /* Right column width adjusted to align naturally to the right */
+        .header-col.right-side { 
+            width: 28%; 
+            text-align: right; 
+            font-size: 10.5pt; 
+            font-weight: bold; 
+        }
+        
+        /* Center Title Column shifted rightwards */
+        .header-col.center-side { 
+            width: 48%; 
+            text-align: right; 
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-right: 0px;
+        }
+        
+        /* Left Column shifted rightwards */
+        .header-col.left-side { 
+            width: 24%; 
+            text-align: right; 
+            font-size: 9.5pt; 
+            font-weight: bold; 
+        }
+
+        .editable-field {
+            outline: none;
+            border: 1px transparent dashed;
+            padding: 1px 3px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .editable-field:hover, .editable-field:focus {
+            border-color: #f59e0b;
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .name-row {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            width: 100%;
+            margin-bottom: 4px;
+            flex-wrap: nowrap;
+            overflow: visible;
+        }
+
+        .name-label {
+            font-weight: bold;
+            white-space: nowrap;
+            font-size: 9.5pt;
+            margin-left: 5px;
+        }
+
+        .name-input-free {
+            display: inline-block;
+            min-width: 30px;
+            flex: 1 1 auto;
+            border: none;
+            outline: none;
+            padding: 1px 4px;
+            font-weight: bold;
+            font-size: 10pt;
+            color: #000;
+            white-space: nowrap;
+            overflow: visible;
+        }
+
+        .name-input-free:focus {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-radius: 3px;
+        }
+
+        .title-main { 
+            font-size: 11pt; 
+            font-weight: 700; 
+            text-align: right; 
+            white-space: nowrap;
+            margin-top: 0px;
+        }
+        .title-sub { 
+            font-size: 10pt; 
+            font-weight: bold; 
+            margin-top: 3px; 
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        /* Table Styling */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5pt;
+            direction: rtl;
+            table-layout: auto;
+        }
+
+        .report-table th, .report-table td {
+            border: 1.5px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            padding: 2px;
+        }
+
+        .table-cell-free {
+            min-width: 100%;
+            height: 22px;
+            outline: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 9pt;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding: 2px 4px;
+            box-sizing: border-box;
+        }
+
+        .table-cell-free::-webkit-scrollbar { display: none; }
+        .table-cell-free:focus { background-color: rgba(224, 242, 254, 0.6); }
+
+        .row-subject-free {
+            text-align: right;
+            font-weight: bold;
+            font-size: 9.5pt;
+            padding-right: 6px;
+            white-space: nowrap;
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+            padding: 6px 2px !important;
+            font-size: 9.5pt;
+            margin: 0 auto;
+            outline: none;
+        }
+
+        .vertical-text:focus { background-color: rgba(224, 242, 254, 0.6); }
+
+        /* Footer Section */
+        .card-footer {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            text-align: center;
+            direction: rtl;
+            padding-top: 15px;
+            gap: 15px;
+        }
+
+        .footer-stamp { font-size: 13pt; font-weight: bold; }
+        .footer-manager {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 12pt;
+            font-weight: bold;
+        }
+
+        /* Rectangle Shape Style */
+        .custom-shape {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            width: 180px;
+            height: 80px;
+            border: 2px solid #000;
+            background-color: rgba(255, 255, 255, 0.9);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            z-index: 50;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            border-radius: 0px;
+        }
+
+        .custom-shape textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            resize: none;
+            outline: none;
+            text-align: center;
+            font-family: inherit;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+
+        /* Logo image — reuses the .custom-shape drag/resize/delete mechanics
+           but with no border or fill, sized like a small logo by default */
+        .logo-shape {
+            top: 60px;
+            left: 60px;
+            width: 120px;
+            height: 120px;
+            border: none;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .logo-shape img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        .custom-shape .delete-shape {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .custom-shape:hover .delete-shape { display: flex; }
+
+        .custom-shape .resize-handle {
+            position: absolute;
+            bottom: -8px;
+            left: -8px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-yellow);
+            border: 2px solid #000;
+            border-radius: 4px;
+            cursor: nesw-resize;
+            display: none;
+            z-index: 51;
+        }
+
+        .custom-shape:hover .resize-handle { display: block; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--panel-bg);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 12px;
+            padding: 25px;
+            width: 400px;
+            text-align: center;
+            color: #fff;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            html, body {
+                background: white !important;
+                color: black !important;
+                height: auto !important;
+                overflow: visible !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            .sidebar { display: none !important; }
+            .workspace { padding: 0 !important; background: white !important; overflow: visible !important; display: block !important; gap: 0 !important; }
+            .a4-page {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                height: auto !important;
+                padding: 10mm !important;
+                page-break-after: always !important;
+            }
+            .a4-page:last-child { page-break-after: auto !important; }
+
+            /* Prevent table content from being clipped or scrolled in the printed output */
+            .editable-field, .vertical-text {
+                overflow: visible !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
+            /* The full-name field stays on a single line and is allowed to
+               extend past its own column instead of wrapping downward */
+            .name-input-free {
+                overflow: visible !important;
+                white-space: nowrap !important;
+                word-break: normal !important;
+            }
+            /* Grade/mark cells stay on one line so short numbers like "100" never
+               get split across two lines (which looked like overlapping digits) */
+            .table-cell-free {
+                overflow: visible !important;
+                white-space: nowrap !important;
+                height: auto !important;
+                min-height: 22px !important;
+                display: block !important;
+            }
+            /* The subject-name column is the one place free text can genuinely
+               run long, so it's still allowed to wrap */
+            .row-subject-free {
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
+
+            .name-row {
+                white-space: nowrap !important;
+                flex-wrap: nowrap !important;
+            }
+            .name-input-free {
+                flex: 1 1 auto !important;
+            }
+
+            /* Remove editing affordances (dashed outlines / hover styles) from the printed page */
+            .editable-field, .name-input-free, .table-cell-free {
+                border-color: transparent !important;
+                box-shadow: none !important;
+            }
+
+            /* Lock column widths when printing/exporting to PDF so they can't be
+               recalculated differently than on screen — this is what was causing
+               the grade numbers to crowd together / overlap in the PDF */
+            .report-table { table-layout: fixed !important; }
+
+            .report-table thead { display: table-header-group; }
+            .report-table tr { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .card-footer { page-break-inside: avoid !important; break-inside: avoid !important; }
+
+            .custom-shape .delete-shape { display: none !important; }
+            .card-delete-btn { display: none !important; }
+            .card-duplicate-btn { display: none !important; }
+            .custom-shape .resize-handle { display: none !important; }
+            .custom-shape { border-color: #000 !important; box-shadow: none !important; cursor: default !important; }
+            .custom-shape textarea { resize: none !important; }
+            .logo-shape { border: none !important; box-shadow: none !important; }
+        }
+
+        /* Language direction handling for non-RTL languages (English, Turkmen) */
+        .a4-page.lang-ltr { direction: ltr; }
+        .a4-page.lang-ltr .card-header { direction: ltr; }
+        .a4-page.lang-ltr .header-col.right-side,
+        .a4-page.lang-ltr .header-col.center-side,
+        .a4-page.lang-ltr .header-col.left-side { text-align: left; }
+        .a4-page.lang-ltr .name-row { direction: ltr; }
+        .a4-page.lang-ltr .title-main,
+        .a4-page.lang-ltr .title-sub { text-align: left; }
+        .a4-page.lang-ltr .report-table { direction: ltr; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Controls -->
+    <div class="sidebar">
+        <h2><i class="fa-solid fa-graduation-cap"></i> کۆنترۆڵی کارتەکان</h2>
+
+        <!-- Storage Group -->
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-box-archive"></i> پاشەکەوتکردن (لوکاڵی لەناو پڕۆژەکە)</div>
+            <div class="btn-row">
+                <button class="btn btn-success" onclick="promptSaveNamed()"><i class="fa-solid fa-save"></i> پاشەکەوتکردن بە ناو</button>
+                <button class="btn" onclick="openSavedFilesModal()"><i class="fa-solid fa-folder-open"></i> کردنەوەی فایل</button>
+            </div>
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+                هەموو زانیارییەکان لەناو خودی ئەم پڕۆژەیە (براوزەرەکەت) پاشەکەوت دەکرێن، پێویست بە هیچ فایلێکی دەرەکی لەسەر کۆمپیوتەرەکەت ناکات. دەتوانیت چەند تۆمارێک بە ناوی جیاواز پاشەکەوت بکەیت و دواتر بیانکەیتەوە.
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-language"></i> زمانی کارت</div>
+            <label>زمان:
+                <select id="langSelect" onchange="setLanguage(this.value)">
+                    <option value="sorani">کوردی سۆرانی</option>
+                    <option value="badini">کوردی بادینی</option>
+                    <option value="english">English</option>
+                    <option value="arabic">العربية</option>
+                    <option value="syriac">ܣܘܪܝܝܐ</option>
+                    <option value="turkmen">Türkmençe</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-layer-group"></i> پۆل / قۆناخ</div>
+            <label>پۆل:
+                <select id="gradeSelect" onchange="setGrade(this.value)">
+                    <option value="">قۆناخەکانی تر</option>
+                    <option value="9">پۆلی نۆیەم</option>
+                    <option value="12">پۆلی دوازدەیەم</option>
+                </select>
+            </label>
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+                لە پۆلی ٩ و ١٢ کارتەکە بەبێ "خولی دووەم" دروست دەبێت، لە قۆناخەکانی تر خولی دووەمیش زیاد دەکرێت.
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-sliders"></i> کردارە سەرەکییەکان</div>
+            <button class="btn btn-primary" onclick="addNewCard()"><i class="fa-solid fa-plus"></i> کارتی نوێ (A4)</button>
+            <button class="btn btn-primary" style="background-color: #10b981; color: white;" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> داگرتن بە PDF</button>
+            <button class="btn" onclick="showAboutModal()"><i class="fa-solid fa-circle-info"></i> دەربارە</button>
+        </div>
+
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-font"></i> فۆڕماتی دەق و شێواز</div>
+            <div class="btn-row">
+                <button class="btn" title="Bold" onclick="applyFormat('bold')"><i class="fa-solid fa-bold"></i></button>
+                <button class="btn" title="Italic" onclick="applyFormat('italic')"><i class="fa-solid fa-italic"></i></button>
+                <button class="btn" title="Underline" onclick="applyFormat('underline')"><i class="fa-solid fa-underline"></i></button>
+            </div>
+            
+            <label>ڕەنگی نوسین:
+                <input type="color" id="textColorPicker" value="#000000" onchange="applyTextColor(this.value)">
+            </label>
+
+            <label>ڕەنگی باکگراوندی خانە:
+                <input type="color" id="cellBgPicker" value="#ffffff" onchange="applyCellBg(this.value)">
+            </label>
+        </div>
+
+        <!-- Card Colors -->
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-palette"></i> ڕەنگی باکگراوندی کارتەکە</div>
+            <div class="btn-row">
+                <button class="btn" style="background: #ffffff; color: #000;" onclick="setCardBg('bg-white')">سپی</button>
+                <button class="btn" style="background: #fef08a; color: #000;" onclick="setCardBg('bg-yellow')">زەرد</button>
+                <button class="btn" style="background: #fbcfe8; color: #000;" onclick="setCardBg('bg-pink')">پەمەیی</button>
+            </div>
+            <div class="btn-row" style="margin-top: 5px;">
+                <button class="btn" style="background: #38bdf8; color: #000;" onclick="setCardBg('bg-blue')">شین</button>
+                <button class="btn" style="background: #4ade80; color: #000;" onclick="setCardBg('bg-green')">سەوز</button>
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-vector-square"></i> شەیپی لاکێشە</div>
+            <button class="btn" onclick="addCustomShape()"><i class="fa-solid fa-square-plus"></i> زیاده‌کردنی لاکێشە</button>
+            <label>ڕەنگی باکگراوندی شەیپ:
+                <input type="color" id="shapeBgPicker" value="#ffffff" onchange="updateSelectedShapeBg(this.value)">
+            </label>
+        </div>
+
+        <!-- Logo Upload -->
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-image"></i> لۆگۆ</div>
+            <button class="btn" onclick="document.getElementById('logoFileInput').click()"><i class="fa-solid fa-upload"></i> زیادکردنی لۆگۆ</button>
+            <input type="file" id="logoFileInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+            <div style="font-size: 0.75rem; color: #999; line-height: 1.4;">
+                دوای زیادکردن، لۆگۆکە دەتوانیت بە ڕاکێشان بۆ هەر شوێنێکی لاپەڕەکە بجوڵێنیت، وە لە گۆشەی خوارەوەی چەپ قەبارەکەی بگۆڕیت.
+            </div>
+        </div>
+
+        <!-- Advanced Calculator Tool -->
+        <div class="tool-group">
+            <div class="section-title"><i class="fa-solid fa-calculator"></i> حاسیبەی پێشکەوتوو</div>
+            <div class="adv-calc-container">
+                <input type="text" id="calcDisplay" class="calc-display" readonly value="0">
+                <div class="calc-grid">
+                    <button class="calc-btn calc-btn-clear" onclick="clearCalc()">C</button>
+                    <button class="calc-btn calc-btn-clear" onclick="backspaceCalc()"><i class="fa-solid fa-backspace"></i></button>
+                    <button class="calc-btn calc-btn-sci" onclick="calcInput('(')">(</button>
+                    <button class="calc-btn calc-btn-sci" onclick="calcInput(')')">)</button>
+
+                    <button class="calc-btn calc-btn-sci" onclick="calcInput('**2')">x²</button>
+                    <button class="calc-btn calc-btn-sci" onclick="calcMath('sqrt')">√x</button>
+                    <button class="calc-btn calc-btn-sci" onclick="calcInput('/100')">%</button>
+                    <button class="calc-btn calc-btn-op" onclick="calcInput('/')">÷</button>
+
+                    <button class="calc-btn" onclick="calcInput('7')">7</button>
+                    <button class="calc-btn" onclick="calcInput('8')">8</button>
+                    <button class="calc-btn" onclick="calcInput('9')">9</button>
+                    <button class="calc-btn calc-btn-op" onclick="calcInput('*')">×</button>
+
+                    <button class="calc-btn" onclick="calcInput('4')">4</button>
+                    <button class="calc-btn" onclick="calcInput('5')">5</button>
+                    <button class="calc-btn" onclick="calcInput('6')">6</button>
+                    <button class="calc-btn calc-btn-op" onclick="calcInput('-')">-</button>
+
+                    <button class="calc-btn" onclick="calcInput('1')">1</button>
+                    <button class="calc-btn" onclick="calcInput('2')">2</button>
+                    <button class="calc-btn" onclick="calcInput('3')">3</button>
+                    <button class="calc-btn calc-btn-op" onclick="calcInput('+')">+</button>
+
+                    <button class="calc-btn" onclick="calcInput('0')">0</button>
+                    <button class="calc-btn" onclick="calcInput('.')">.</button>
+                    <button class="calc-btn calc-btn-eq" onclick="calcResult()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="workspace" id="workspace"></div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-code" style="font-size: 3rem; color: var(--accent-yellow); margin-bottom: 10px;"></i>
+            <h3>دەربارەی بەرنامە</h3>
+            <p>ئەم ئەپڵیکەیشنە ئامادەکراوە لەلایەن Bako Xafur پڕۆگرامەر و شارەزای بواری پڕۆگرامینگ</p>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="closeAboutModal()">داخستن</button>
+        </div>
+    </div>
+
+    <!-- Saved Files Modal -->
+    <div class="modal" id="savedFilesModal">
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+            <i class="fa-solid fa-folder-open" style="font-size: 3rem; color: var(--accent-yellow); margin-bottom: 10px;"></i>
+            <h3>فایلە پاشەکەوتکراوەکان</h3>
+            <div id="savedFilesList" style="text-align: right; margin-top: 15px;"></div>
+            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="closeSavedFilesModal()">داخستن</button>
+        </div>
+    </div>
+
+    <script>
+        let cardCount = 0;
+        let activeElement = null;
+        let currentCardBg = 'bg-white';
+        let currentLang = 'sorani';
+        let currentGrade = '';
+
+        /* Text dictionaries for the five languages / six dialects the card supports.
+           dir controls whether a card renders right-to-left or left-to-right. */
+    const LANG_TEXTS = {
+    sorani: {
+        dir: 'rtl',
+        ministry: 'وەزارەتی پەروەردە',
+        directorate: 'بەڕێوەبەرایەتی گشتی پەروەردەی هەولێر',
+        office: 'پ.پ.- ناوەندی هەولێر',
+        schoolName: 'ناوی قوتابخانە',
+        fullNameLabel: 'ناوی چوارى:',
+        titleMain: 'تۆماری نمرەی کارگێڕی و ئەنجامی تاقیکردنەوەی',
+        titleSub: 'پۆل / ساڵی خوێندنی (0000-0000)',
+        mobile: 'ژمارەی مۆبایل:',
+        serial: 'ژمارەی سیریال:',
+        hobby: 'هۆبە:',
+        generalRecord: 'ژ.تۆماری گشتی:',
+        gender: 'ڕەگەز:',
+        subjectsHeader: 'ناوی وانەکان',
+        round1: 'خولی یەکەم',
+        round2: 'خولی دووەم',
+        avgRound1: 'تێکڕای خولی یەکەم',
+        avgRound2: 'تێکڕای خولی دووەم',
+        notes: 'تێبینی',
+        season1: 'وەرزى یەکەم',
+        season2: 'وەرزى دووەم',
+        eval1: 'هەڵسەنگاندنی یەکەم',
+        writtenExam: 'تاقیکردنەوەی نووسینەکی',
+        eval2: 'هەڵسەنگاندنی دووەم',
+        finalSeasonExam: 'تاقیکردنەوەی کۆتای وەرز',
+        season1Result: 'ئەنجامی وەرزی یەکەم',
+        seasonResult: 'تاقیکردنەوەی کۆتای وەرز',
+        round2small: 'ئەنجامی وەرزی دووەم',
+        round2ExamResult: 'تاقیکردنەوەی وەرزی یەکەم',
+        sportsArtAnnual: 'ئەنجامی وەرزی یەکەم',
+        round2GradeResult: 'تاقیکردنەوەی وەرزی دووەم',
+        sportsArtIndependence: 'ئەنجامی وەرزی دووەم',
+        subjectsPlaceholder: 'بابەتەکان',
+        totalGeneral: 'سەرجەمی گشتی',
+        stamp: 'مۆر',
+        managerName: 'ناوی بەڕێوەبەر',
+        managerTitle: 'بەڕێوەبەر',
+        subjects: ['کوردی', 'عەرەبی', 'ئینگلیزی', 'بیرکاری', 'زانست', 'کۆمەڵایەتی', 'وەرزش', 'هونەر', 'پەروەردەی ئایینی']
+    },
+    badini: {
+        dir: 'rtl',
+        ministry: 'وەزارەتا پەروەردێ',
+        directorate: 'ڕێڤەبەراتیا گشتی یا پەروەردا هەولێرێ',
+        office: 'پ.پ.- ناڤەندا هەولێرێ',
+        schoolName: 'ناڤێ قوتابخانێ',
+        fullNameLabel: 'ناڤێ چارپشکی:',
+        titleMain: 'تۆمارا نمرا کارگێڕی و ئەنجامێن تاقیکرنێ',
+        titleSub: 'پۆل / ساڵا خوێندنێ (0000-0000)',
+        mobile: 'ژمارا مۆبایلێ:',
+        serial: 'ژمارا سیریالێ:',
+        hobby: 'هۆبە:',
+        generalRecord: 'ژ.تۆمارا گشتی:',
+        gender: 'ڕەگەز:',
+        subjectsHeader: 'ناڤێ وانان',
+        round1: 'خولا یەکێ',
+        round2: 'خولا دووێ',
+        avgRound1: 'تێکڕایا خولا یەکێ',
+        avgRound2: 'تێکڕایا خولا دووێ',
+        notes: 'تێبینی',
+        season1: 'وەرزا یەکێ',
+        season2: 'وەرزا دووێ',
+        eval1: 'هەلسەنگاندنا یەکێ',
+        writtenExam: 'تاقیکرنا نڤێسینەکی',
+        eval2: 'هەلسەنگاندنا دووێ',
+        finalSeasonExam: 'تاقیکرنا دوماهیا وەرزێ',
+        season1Result: 'ئەنجامێ وەرزا یەکێ',
+        seasonResult: 'تاقیکرنا دوماهیا وەرزێ',
+        round2small: 'ئەنجامێ وەرزا دووێ',
+        round2ExamResult: 'تاقیکرنا وەرزا یەکێ',
+        sportsArtAnnual: 'ئەنجامێ وەرزا یەکێ',
+        round2GradeResult: 'تاقیکرنا وەرزا دووێ',
+        sportsArtIndependence: 'ئەنجامێ وەرزا دووێ',
+        subjectsPlaceholder: 'بابەت',
+        totalGeneral: 'کۆمچێ گشتی',
+        stamp: 'مۆر',
+        managerName: 'ناڤێ ڕێڤەبەری',
+        managerTitle: 'ڕێڤەبەر',
+        subjects: ['کوردی', 'عەرەبی', 'ئینگلیزی', 'بیرکاری', 'زانست', 'کۆمەڵایەتی', 'وەرزش', 'هونەر', 'پەروەردا ئایینی']
+    },
+    english: {
+        dir: 'ltr',
+        ministry: 'Ministry of Education',
+        directorate: 'General Directorate of Erbil Education',
+        office: 'P.P. - Erbil Center',
+        schoolName: 'School Name',
+        fullNameLabel: 'Four-part Name:',
+        titleMain: 'Administrative Grade Record and Exam Results',
+        titleSub: 'Grade / Academic Year (0000-0000)',
+        mobile: 'Mobile Number:',
+        serial: 'Serial Number:',
+        hobby: 'Section/Department:',
+        generalRecord: 'General Record No.:',
+        gender: 'Gender:',
+        subjectsHeader: 'Subject Names',
+        round1: 'First Round',
+        round2: 'Second Round',
+        avgRound1: 'First Round Average',
+        avgRound2: 'Second Round Average',
+        notes: 'Notes',
+        season1: 'First Semester',
+        season2: 'Second Semester',
+        eval1: 'First Assessment',
+        writtenExam: 'Written Exam',
+        eval2: 'Second Assessment',
+        finalSeasonExam: 'Final Semester Exam',
+        season1Result: 'First Semester Result',
+        seasonResult: 'Final Semester Exam',
+        round2small: 'Second Semester Result',
+        round2ExamResult: 'First Semester Exam',
+        sportsArtAnnual: 'First Semester Result',
+        round2GradeResult: 'Second Semester Exam',
+        sportsArtIndependence: 'Second Semester Result',
+        subjectsPlaceholder: 'Subjects',
+        totalGeneral: 'Grand Total',
+        stamp: 'Stamp',
+        managerName: 'Principal Name',
+        managerTitle: 'Principal',
+        subjects: ['Kurdish', 'Arabic', 'English', 'Mathematics', 'Science', 'Social Studies', 'Physical Education', 'Art', 'Religious Education']
+    },
+    arabic: {
+        dir: 'rtl',
+        ministry: 'وزارة التربية',
+        directorate: 'المديرية العامة لتربية أربيل',
+        office: 'ت.ت - مركز أربيل',
+        schoolName: 'اسم المدرسة',
+        fullNameLabel: 'الاسم الرباعي:',
+        titleMain: 'سجل الدرجات الإداري ونتائج الامتحان',
+        titleSub: 'الصف / السنة الدراسية (0000-0000)',
+        mobile: 'رقم الموبايل:',
+        serial: 'الرقم التسلسلي:',
+        hobby: 'الشعبة:',
+        generalRecord: 'رقم السجل العام:',
+        gender: 'الجنس:',
+        subjectsHeader: 'أسماء المواد',
+        round1: 'الدور الأول',
+        round2: 'الدور الثاني',
+        avgRound1: 'معدل الدور الأول',
+        avgRound2: 'معدل الدور الثاني',
+        notes: 'ملاحظات',
+        season1: 'الفصل الأول',
+        season2: 'الفصل الثاني',
+        eval1: 'التقييم الأول',
+        writtenExam: 'الامتحان التحريري',
+        eval2: 'التقييم الثاني',
+        finalSeasonExam: 'امتحان نهاية الفصل',
+        season1Result: 'نتيجة الفصل الأول',
+        seasonResult: 'امتحان نهاية الفصل',
+        round2small: 'نتيجة الفصل الثاني',
+        round2ExamResult: 'امتحان الفصل الأول',
+        sportsArtAnnual: 'نتيجة الفصل الأول',
+        round2GradeResult: 'امتحان الفصل الثاني',
+        sportsArtIndependence: 'نتيجة الفصل الثاني',
+        subjectsPlaceholder: 'المواد',
+        totalGeneral: 'المجموع الكلي',
+        stamp: 'الختم',
+        managerName: 'اسم المدير',
+        managerTitle: 'المدير',
+        subjects: ['اللغة الكردية', 'اللغة العربية', 'اللغة الإنكليزية', 'الرياضيات', 'العلوم', 'الاجتماعيات', 'التربية الرياضية', 'التربية الفنية', 'التربية الدينية']
+    },
+    syriac: {
+        dir: 'rtl',
+        ministry: 'ܘܙܵܪܲܬ ܬܲܪܒܝܼܬܵܐ',
+        directorate: 'ܡܘܼܕܝܼܪܘܼܬܵܐ ܓܵܘܵܢܵܝܬܵܐ ܕܬܲܪܒܝܼܬܵܐ ܕܐܲܪܒܝܼܠ',
+        office: 'ܡܲܪܟܙܵܐ ܕܐܲܪܒܝܼܠ',
+        schoolName: 'ܫܸܡ ܡܲܕܪܲܫܬܵܐ',
+        fullNameLabel: 'ܫܸܡܵܐ ܐܲܪܒܥܵܢܵܝܵܐ:',
+        titleMain: 'ܟܬܵܒ݂ܵܐ ܕܕܲܪ̈ܓܹܐ ܡܕܲܒܪܵܢܵܝܵܐ ܘܢܬܝܼ̈ܥܵܬܵܐ ܕܒܘܼܚܪܵܢܵܐ',
+        titleSub: 'ܨܸܦ݂ܪܵܐ / ܫܲܢ݇ܬܵܐ ܕܝܘܼܠܦܵܢܵܐ (0000-0000)',
+        mobile: 'ܡܸܢܝܵܢܵܐ ܕܡܘܼܒܵܝܹܠ:',
+        serial: 'ܡܸܢܝܵܢܵܐ ܣܝܼܕܵܝܵܐ:',
+        hobby: 'ܣܵܗܡܵܐ:',
+        generalRecord: 'ܡܸܢܝܵܢ ܟܬܵܒ݂ܵܐ ܓܵܘܵܢܵܝܵܐ:',
+        gender: 'ܓܸܢܣܵܐ:',
+        subjectsHeader: 'ܫܡܵܗܹ̈ܐ ܕܗܸܪܓܹ̈ܐ',
+        round1: 'ܕܵܘܪܵܐ ܩܲܕܡܵܝܵܐ',
+        round2: 'ܕܵܘܪܵܐ ܬܪܲܝܵܢܵܐ',
+        avgRound1: 'ܡܸܨܥܵܝܘܼܬܵܐ ܕܕܵܘܪܵܐ ܩܲܕܡܵܝܵܐ',
+        avgRound2: 'ܡܸܨܥܵܝܘܼܬܵܐ ܕܕܵܘܪܵܐ ܬܪܲܝܵܢܵܐ',
+        notes: 'ܢܘܼܗܵܪܹ̈ܐ',
+        season1: 'ܦܸܠܓܵܐ ܩܲܕܡܵܝܵܐ',
+        season2: 'ܦܸܠܓܵܐ ܬܪܲܝܵܢܵܐ',
+        eval1: 'ܡܫܘܼܚܬܵܐ ܩܲܕܡܵܝܬܵܐ',
+        writtenExam: 'ܒܘܼܚܪܵܢܵܐ ܟܬܝܼܒ݂ܵܝܵܐ',
+        eval2: 'ܡܫܘܼܚܬܵܐ ܬܪܲܝܵܢܝܼܬܵܐ',
+        finalSeasonExam: 'ܒܘܼܚܪܵܢܵܐ ܐ݇ܚܪܵܝܵܐ ܕܦܸܠܓܵܐ',
+        season1Result: 'ܢܬܝܼܥܬܵܐ ܕܦܸܠܓܵܐ ܩܲܕܡܵܝܵܐ',
+        seasonResult: 'ܒܘܼܚܪܵܢܵܐ ܐ݇ܚܪܵܝܵܐ ܕܦܸܠܓܵܐ',
+        round2small: 'ܢܬܝܼܥܬܵܐ ܕܦܸܠܓܵܐ ܬܪܲܝܵܢܵܐ',
+        round2ExamResult: 'ܒܘܼܚܪܵܢܵܐ ܕܦܸܠܓܵܐ ܩܲܕܡܵܝܵܐ',
+        sportsArtAnnual: 'ܢܬܝܼܥܬܵܐ ܕܦܸܠܓܵܐ ܩܲܕܡܵܝܵܐ',
+        round2GradeResult: 'ܒܘܼܚܪܵܢܵܐ ܕܦܸܠܓܵܐ ܬܪܲܝܵܢܵܐ',
+        sportsArtIndependence: 'ܢܬܝܼܥܬܵܐ ܕܦܸܠܓܵܐ ܬܪܲܝܵܢܵܐ',
+        subjectsPlaceholder: 'ܗܸܪܓܹ̈ܐ',
+        totalGeneral: 'ܟܢܘܼܫܝܵܐ ܓܵܘܵܢܵܝܵا',
+        stamp: 'ܛܲܒ݂ܥܵܐ',
+        managerName: 'ܫܸܡ ܡܕܲܒܪܵܢܵܐ',
+        managerTitle: 'ܡܕܲܒܪܵܢܵܐ',
+        subjects: ['ܟܘܼܪܕܵܝܵܐ', 'ܥܲܪܲܒ݂ܵܝܵܐ', 'ܐܸܢܓܠܸܝܙܵܝܵܐ', 'ܚܘܼܫܒܵܢܵܐ', 'ܝܼܕܲܥܬܵܐ', 'ܝܘܼܠܦܵܢܵܐ ܟܢܘܼܫܝܵܝܵܐ', 'ܪܝܵܙܵܐ', 'ܐܘܼܡܵܢܘܼܬܵܐ', 'ܝܘܼܠܦܵܢܵܐ ܕܬܵܘܕܝܼܬܵا']
+    },
+    turkmen: {
+        dir: 'ltr',
+        ministry: 'Milli Eğitim Bakanlığı',
+        directorate: 'Erbil Genel Eğitim Müdürlüğü',
+        office: 'E.M. - Erbil Merkezi',
+        schoolName: 'Okul Adı',
+        fullNameLabel: 'Dört İsim:',
+        titleMain: 'İdari Not Kaydı ve Sınav Sonuçları',
+        titleSub: 'Sınıf / Öğretim Yılı (0000-0000)',
+        mobile: 'Cep Telefonu:',
+        serial: 'Seri Numarası:',
+        hobby: 'Şube:',
+        generalRecord: 'Genel Kayıt No:',
+        gender: 'Cinsiyet:',
+        subjectsHeader: 'Ders Adları',
+        round1: 'Birinci Dönem (I. Kur)',
+        round2: 'İkinci Dönem (II. Kur)',
+        avgRound1: 'Birinci Dönem Ortalaması',
+        avgRound2: 'İkinci Dönem Ortalaması',
+        notes: 'Notlar',
+        season1: 'Birinci Yarıyıl',
+        season2: 'İkinci Yarıyıl',
+        eval1: 'Birinci Değerlendirme',
+        writtenExam: 'Yazılı Sınav',
+        eval2: 'İkinci Değerlendirme',
+        finalSeasonExam: 'Dönem Sonu Sınavı',
+        season1Result: 'Birinci Yarıyıl Sonucu',
+        seasonResult: 'Dönem Sonu Sınavı',
+        round2small: 'İkinci Yarıyıl Sonucu',
+        round2ExamResult: 'Birinci Yarıyıl Sınavı',
+        sportsArtAnnual: 'Birinci Yarıyıl Sonucu',
+        round2GradeResult: 'İkinci Yarıyıl Sınavı',
+        sportsArtIndependence: 'İkinci Yarıyıl Sonucu',
+        subjectsPlaceholder: 'Dersler',
+        totalGeneral: 'Genel Toplam',
+        stamp: 'Mühür',
+        managerName: 'Müdürün Adı',
+        managerTitle: 'Müdür',
+        subjects: ['Kürtçe', 'Arapça', 'İngilizce', 'Matematik', 'Fen Bilimleri', 'Sosyal Bilgiler', 'Beden Eğitimi', 'Görsel Sanatlar', 'Din Kültürü']
+    }
+};
+
+        function setLanguage(lang) {
+            currentLang = lang;
+        }
+
+        function setGrade(grade) {
+            currentGrade = grade;
+        }
+
+        window.onload = async function() {
+            const autosave = getAutosave();
+            let restored = false;
+            if (autosave && autosave.html) {
+                const wantsRestore = await customConfirm('کارێکی پاشەکەوتکراوی خۆکار هەیە کە هێشتا بە دەستی سەیڤ نەکراوە. دەتەوێت بیگەڕێنیتەوە؟');
+                if (wantsRestore) {
+                    restoreAutosave(autosave);
+                    restored = true;
+                }
+            }
+            if (!restored) {
+                addNewCard();
+            }
+            startAutosave();
+        };
+
+        function addNewCard() {
+            cardCount++;
+            const workspace = document.getElementById('workspace');
+            const pageDiv = document.createElement('div');
+            const t = LANG_TEXTS[currentLang] || LANG_TEXTS.sorani;
+            const hasRound2 = !(currentGrade === '9' || currentGrade === '12');
+            pageDiv.className = 'a4-page ' + currentCardBg + (t.dir === 'ltr' ? ' lang-ltr' : '');
+            pageDiv.id = 'page-' + cardCount;
+            pageDiv.setAttribute('dir', t.dir);
+
+            const round2HeadCell = hasRound2 ? `<th colspan="4"><div class="editable-field" contenteditable="true">${t.round2}</div></th>
+                                <th rowspan="3" style="width: 4%;"><div class="vertical-text" contenteditable="true">${t.avgRound2}</div></th>` : '';
+
+            const round2SeasonRow = hasRound2 ? `<td colspan="4" style="font-weight:bold;"><div class="editable-field" contenteditable="true">${t.round2}</div></td>` : '';
+
+            const round2SubRow = hasRound2 ? `
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.round2ExamResult}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.sportsArtAnnual}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.round2GradeResult}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.sportsArtIndependence}</div></td>` : '';
+
+            const round2MaxRow = hasRound2 ? `
+                                <td><div class="table-cell-free" contenteditable="true">80</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">80</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>` : '';
+
+            const footRound2Cell = hasRound2 ? `<td colspan="5"><div class="table-cell-free" contenteditable="true"></div></td>` : '';
+
+            pageDiv.innerHTML = `
+                <button type="button" class="card-delete-btn" title="سڕینەوەی ئەم کارتە" onclick="deleteCard('page-${cardCount}')"><i class="fa-solid fa-trash"></i></button>
+                <button type="button" class="card-duplicate-btn" title="کۆپیکردنی ئەم کارتە" onclick="duplicateCard('page-${cardCount}')"><i class="fa-solid fa-copy"></i></button>
+                <div>
+                    <div class="card-header">
+                        <div class="header-col right-side">
+                            <div class="editable-field" contenteditable="true">${t.ministry}</div>
+                            <div style="font-size: 8pt; margin-top:-2px;" class="editable-field" contenteditable="true">${t.directorate}</div>
+                            <div style="margin-top: 2px;" class="editable-field" contenteditable="true">${t.office}</div>
+                            <div style="font-size: 8.5pt;" class="editable-field" contenteditable="true">${t.schoolName}</div>
+                            <div class="name-row" style="margin-top: 2px;">
+                                <span class="name-label">${t.fullNameLabel}</span>
+                                <div class="name-input-free" contenteditable="true" spellcheck="false"></div>
+                            </div>
+                        </div>
+
+                        <div class="header-col center-side">
+                            <div class="title-main editable-field" contenteditable="true">${t.titleMain}</div>
+                            <div class="title-sub editable-field" contenteditable="true">${t.titleSub}</div>
+                        </div>
+
+                        <div class="header-col left-side">
+                            <div style="font-size: 8.5pt;"><span class="editable-field" contenteditable="true">${t.mobile} ............</span></div>
+                            <div><span class="editable-field" contenteditable="true">${t.serial}</span> <span class="editable-field" contenteditable="true">................</span></div>
+                            <div><span class="editable-field" contenteditable="true">${t.hobby}</span> <span class="editable-field" contenteditable="true">................</span></div>
+                            <div><span class="editable-field" contenteditable="true">${t.generalRecord}</span> <span class="editable-field" contenteditable="true">................</span></div>
+                            <div><span class="editable-field" contenteditable="true">${t.gender}</span> <span class="editable-field" contenteditable="true">................</span></div>
+                        </div>
+                    </div>
+
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="3" style="width: 19%;"><div class="editable-field" contenteditable="true">${t.subjectsHeader}</div></th>
+                                <th colspan="5"><div class="editable-field" contenteditable="true"> ${t.round1}</div></th>
+                                <th colspan="5"><div class="editable-field" contenteditable="true">${t.round1}</div></th>
+                                <th rowspan="3" style="width: 4%;"><div class="vertical-text" contenteditable="true">${t.avgRound1}</div></th>
+                                ${round2HeadCell}
+                                <th rowspan="3" style="width: 4.3%;"><div class="vertical-text" contenteditable="true">${t.notes}</div></th>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="font-weight:bold;"><div class="editable-field" contenteditable="true">${t.season1}</div></td>
+                                <td colspan="5" style="font-weight:bold;"><div class="editable-field" contenteditable="true">${t.season2}</div></td>
+                                ${round2SeasonRow}
+                            </tr>
+                            <tr>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.eval1}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.writtenExam}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.eval2}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.finalSeasonExam}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.season1Result}</div></td>
+
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.eval1}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.writtenExam}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.eval2}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true">${t.seasonResult}</div></td>
+                                <td style="width: 3.4%;"><div class="vertical-text" contenteditable="true"> ${t.round2small}</div></td>
+                                ${round2SubRow}
+                            </tr>
+                            <tr style="background-color: #f9f9f9; font-weight: bold;">
+                                <td><div class="table-cell-free" contenteditable="true">${t.subjectsPlaceholder}</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">10</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">20</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">10</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">60</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">10</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">20</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">10</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">60</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>
+                                <td><div class="table-cell-free" contenteditable="true">100</div></td>
+                                ${round2MaxRow}
+                                <td><div class="table-cell-free" contenteditable="true"></div></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-${cardCount}">
+                            ${generateTableRows(t, hasRound2)}
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold;">
+                                <td><div class="editable-field" contenteditable="true">${t.totalGeneral}</div></td>
+                                <td colspan="11"><div class="table-cell-free" contenteditable="true"></div></td>
+                                ${footRound2Cell}
+                                <td><div class="table-cell-free" contenteditable="true"></div></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    <div class="footer-stamp">
+                        <span class="editable-field" contenteditable="true">${t.stamp}</span>
+                    </div>
+                    <div class="footer-manager">
+                        <span class="editable-field" contenteditable="true">${t.managerName}</span>
+                        <span class="editable-field" contenteditable="true">${t.managerTitle}</span>
+                    </div>
+                </div>
+            `;
+
+            workspace.appendChild(pageDiv);
+            setupTableListeners(cardCount);
+        }
+
+        function generateTableRows(t, hasRound2) {
+            let html = '';
+            const subjects = (t && t.subjects) ? t.subjects : [];
+            const colCount = hasRound2 ? 17 : 12;
+
+            for (let i = 0; i < 13; i++) {
+                html += `<tr>
+                    <td><div contenteditable="true" class="table-cell-free row-subject-free">${subjects[i] || ''}</div></td>
+                    ${Array(colCount).fill(0).map(() => `<td><div contenteditable="true" class="table-cell-free"></div></td>`).join('')}
+                </tr>`;
+            }
+            return html;
+        }
+
+        function setupTableListeners(cId) {
+            const page = document.getElementById(`page-${cId}`);
+            page.addEventListener('click', function(e) {
+                if(e.target.classList.contains('table-cell-free') || e.target.classList.contains('editable-field') || e.target.classList.contains('name-input-free') || e.target.getAttribute('contenteditable') === 'true') {
+                    activeElement = e.target;
+                }
+            });
+        }
+
+        /* Re-attaches drag & resize behavior to shapes restored from saved HTML,
+           since those event listeners aren't part of the saved markup itself. */
+        function reinitializeShapes() {
+            document.querySelectorAll('.custom-shape').forEach(shape => {
+                makeUnrestrictedDraggable(shape);
+                makeResizable(shape);
+            });
+        }
+
+        /* All saves live inside the browser's local storage for this project —
+           nothing is written to the computer's file system. */
+        const SAVED_FILES_KEY = 'student_cards_saved_files';
+
+        function getSavedFiles() {
+            try {
+                return JSON.parse(localStorage.getItem(SAVED_FILES_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function setSavedFiles(files) {
+            localStorage.setItem(SAVED_FILES_KEY, JSON.stringify(files));
+        }
+
+        /* Automatic background save — keeps a single rolling copy of the
+           current work so nothing is lost if the person forgets to save
+           manually. Separate from the named saves above. */
+        const AUTOSAVE_KEY = 'student_cards_autosave';
+        let autosaveDebounceTimer = null;
+        let autosaveEnabled = false;
+
+        function getAutosave() {
+            try {
+                return JSON.parse(localStorage.getItem(AUTOSAVE_KEY)) || null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveAutosaveNow() {
+            try {
+                const workspace = document.getElementById('workspace');
+                if (!workspace || !workspace.querySelector('.a4-page')) return;
+                const data = {
+                    cardCount: cardCount,
+                    html: workspace.innerHTML,
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+            } catch (e) {
+                /* storage full or unavailable — silently skip this cycle */
+            }
+        }
+
+        function scheduleAutosave() {
+            if (!autosaveEnabled) return;
+            clearTimeout(autosaveDebounceTimer);
+            autosaveDebounceTimer = setTimeout(saveAutosaveNow, 3000);
+        }
+
+        function restoreAutosave(entry) {
+            document.getElementById('workspace').innerHTML = entry.html;
+            cardCount = parseInt(entry.cardCount) || 1;
+            for (let i = 1; i <= cardCount; i++) {
+                setupTableListeners(i);
+            }
+            reinitializeShapes();
+            syncCurrentCardBg();
+        }
+
+        /* Watches every change inside the workspace (typing, adding/removing
+           cards or shapes, color changes, dragging, resizing) and triggers a
+           debounced autosave, backed up by a periodic save regardless of
+           activity. */
+        function startAutosave() {
+            autosaveEnabled = true;
+            const workspace = document.getElementById('workspace');
+            const observer = new MutationObserver(scheduleAutosave);
+            observer.observe(workspace, { childList: true, subtree: true, attributes: true, characterData: true });
+            setInterval(saveAutosaveNow, 20000);
+            window.addEventListener('beforeunload', saveAutosaveNow);
+        }
+
+        /* Generic engine behind customAlert / customConfirm / customPrompt.
+           Shows the themed modal instead of the browser's native popup and
+           resolves a Promise once the person responds. */
+        function showDialog({ message, showCancel, showInput, defaultValue }) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('customDialogModal');
+                const okBtn = document.getElementById('customDialogOkBtn');
+                const cancelBtn = document.getElementById('customDialogCancelBtn');
+                const input = document.getElementById('customDialogInput');
+
+                document.getElementById('customDialogMessage').textContent = message;
+                input.style.display = showInput ? 'block' : 'none';
+                input.value = showInput ? (defaultValue || '') : '';
+                cancelBtn.style.display = showCancel ? 'inline-flex' : 'none';
+
+                modal.style.display = 'flex';
+                if (showInput) setTimeout(() => { input.focus(); input.select(); }, 50);
+
+                function cleanup(result) {
+                    modal.style.display = 'none';
+                    okBtn.removeEventListener('click', onOk);
+                    cancelBtn.removeEventListener('click', onCancel);
+                    input.removeEventListener('keydown', onKeydown);
+                    resolve(result);
+                }
+                function onOk() {
+                    cleanup(showInput ? input.value : true);
+                }
+                function onCancel() {
+                    cleanup(showInput ? null : false);
+                }
+                function onKeydown(e) {
+                    if (e.key === 'Enter') { e.preventDefault(); onOk(); }
+                    else if (e.key === 'Escape') { onCancel(); }
+                }
+
+                okBtn.addEventListener('click', onOk);
+                cancelBtn.addEventListener('click', onCancel);
+                input.addEventListener('keydown', onKeydown);
+            });
+        }
+
+        function customAlert(message) {
+            return showDialog({ message, showCancel: false, showInput: false });
+        }
+        function customConfirm(message) {
+            return showDialog({ message, showCancel: true, showInput: false });
+        }
+        function customPrompt(message, defaultValue) {
+            return showDialog({ message, showCancel: true, showInput: true, defaultValue });
+        }
+
+        async function promptSaveNamed() {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            const defaultName = `تۆمار ${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+
+            const name = await customPrompt('ناوی ئەم پاشەکەوتکردنە بنووسە:', defaultName);
+            if (!name || !name.trim()) return;
+
+            const files = getSavedFiles();
+            if (files[name] && !(await customConfirm(`فایلێک بەم ناوە "${name}" پێشتر هەیە. دەتەوێت نوێی بکەیتەوە؟`))) {
+                return;
+            }
+
+            files[name] = {
+                cardCount: cardCount,
+                html: document.getElementById('workspace').innerHTML,
+                savedAt: now.toISOString()
+            };
+            setSavedFiles(files);
+            await customAlert(`بە سەرکەوتوویی پاشەکەوت کرا وەک: "${name}"`);
+        }
+
+        function openSavedFilesModal() {
+            renderSavedFilesList();
+            document.getElementById('savedFilesModal').style.display = 'flex';
+        }
+
+        function closeSavedFilesModal() {
+            document.getElementById('savedFilesModal').style.display = 'none';
+        }
+
+        function renderSavedFilesList() {
+            const files = getSavedFiles();
+            const container = document.getElementById('savedFilesList');
+            const names = Object.keys(files).sort((a, b) => {
+                const da = files[a].savedAt || '';
+                const db = files[b].savedAt || '';
+                return db.localeCompare(da);
+            });
+
+            if (names.length === 0) {
+                container.innerHTML = '<p style="color:#999;">هیچ فایلێکی پاشەکەوتکراو نییە.</p>';
+                return;
+            }
+
+            container.innerHTML = names.map(name => {
+                const entry = files[name];
+                const date = entry.savedAt ? new Date(entry.savedAt).toLocaleString() : '';
+                const safeName = name.replace(/'/g, "\\'");
+                return `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#2a2a2a; padding:10px; border-radius:8px; margin-bottom:8px; gap:8px;">
+                        <div style="flex:1; text-align:right;">
+                            <div style="font-weight:bold;">${name}</div>
+                            <div style="font-size:0.75rem; color:#999;">${date}</div>
+                        </div>
+                        <button class="btn btn-primary" style="flex:0 0 auto; padding:6px 10px;" title="کردنەوە" onclick="loadNamedFile('${safeName}')"><i class="fa-solid fa-folder-open"></i></button>
+                        <button class="btn" style="flex:0 0 auto; padding:6px 10px; background:#ef4444; color:#fff; border-color:#dc2626;" title="سڕینەوە" onclick="deleteNamedFile('${safeName}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadNamedFile(name) {
+            const files = getSavedFiles();
+            const entry = files[name];
+            if (!entry) return;
+
+            document.getElementById('workspace').innerHTML = entry.html;
+            cardCount = parseInt(entry.cardCount) || 1;
+            for (let i = 1; i <= cardCount; i++) {
+                setupTableListeners(i);
+            }
+            reinitializeShapes();
+            syncCurrentCardBg();
+            closeSavedFilesModal();
+        }
+
+        /* Keeps currentCardBg in sync with whatever color the existing cards use,
+           so a newly added card matches them automatically. */
+        function syncCurrentCardBg() {
+            const lastPage = document.querySelector('.a4-page:last-child');
+            if (!lastPage) return;
+            const bgClasses = ['bg-white', 'bg-yellow', 'bg-pink', 'bg-blue', 'bg-green'];
+            const found = bgClasses.find(cls => lastPage.classList.contains(cls));
+            if (found) currentCardBg = found;
+        }
+
+        async function deleteNamedFile(name) {
+            if (!(await customConfirm(`دڵنیایت لە سڕینەوەی "${name}"؟`))) return;
+            const files = getSavedFiles();
+            delete files[name];
+            setSavedFiles(files);
+            renderSavedFilesList();
+        }
+
+        function applyFormat(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function applyTextColor(color) {
+            document.execCommand('foreColor', false, color);
+            if (activeElement) activeElement.style.color = color;
+        }
+
+        function applyCellBg(color) {
+            if (activeElement) {
+                const parentCell = activeElement.closest('td, th');
+                if (parentCell) parentCell.style.backgroundColor = color;
+            }
+        }
+
+        function setCardBg(bgClass) {
+            currentCardBg = bgClass;
+            const pages = document.querySelectorAll('.a4-page');
+            pages.forEach(p => {
+                p.classList.remove('bg-white', 'bg-yellow', 'bg-pink', 'bg-blue', 'bg-green');
+                p.classList.add(bgClass);
+            });
+        }
+
+        async function deleteCard(pageId) {
+            const totalPages = document.querySelectorAll('.a4-page').length;
+            if (totalPages <= 1) {
+                await customAlert('ناتوانیت تاکە کارتی ماوە بسڕیتەوە.');
+                return;
+            }
+            if (!(await customConfirm('دڵنیایت لە سڕینەوەی ئەم کارتە؟ ناتوانرێت گەڕێندرێتەوە.'))) return;
+            const page = document.getElementById(pageId);
+            if (page) page.remove();
+        }
+
+        /* Clones an existing card (including everything already filled in)
+           and inserts the copy directly after it, ready to edit independently. */
+        function duplicateCard(pageId) {
+            const original = document.getElementById(pageId);
+            if (!original) return;
+
+            const clone = original.cloneNode(true);
+            cardCount++;
+            const newId = 'page-' + cardCount;
+            clone.id = newId;
+
+            const oldTbody = clone.querySelector('tbody');
+            if (oldTbody) oldTbody.id = 'tbody-' + cardCount;
+
+            const deleteBtn = clone.querySelector('.card-delete-btn');
+            if (deleteBtn) deleteBtn.setAttribute('onclick', `deleteCard('${newId}')`);
+
+            const dupBtn = clone.querySelector('.card-duplicate-btn');
+            if (dupBtn) dupBtn.setAttribute('onclick', `duplicateCard('${newId}')`);
+
+            original.after(clone);
+
+            setupTableListeners(cardCount);
+            reinitializeShapes();
+        }
+
+        /* Reads the chosen image file and drops it onto the last card as a
+           draggable, resizable logo. */
+        function handleLogoUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                addLogoShape(e.target.result);
+            };
+            reader.readAsDataURL(file);
+
+            event.target.value = '';
+        }
+
+        function addLogoShape(dataUrl) {
+            const activePage = document.querySelector('.a4-page:last-child') || document.querySelector('.a4-page');
+            if (!activePage) return;
+
+            const shape = document.createElement('div');
+            shape.className = 'custom-shape logo-shape';
+
+            shape.innerHTML = `
+                <div class="delete-shape" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></div>
+                <div class="resize-handle"></div>
+                <img src="${dataUrl}" draggable="false" alt="logo">
+            `;
+
+            activePage.appendChild(shape);
+            makeUnrestrictedDraggable(shape);
+            makeResizable(shape);
+        }
+
+        function addCustomShape() {
+            const activePage = document.querySelector('.a4-page:last-child') || document.querySelector('.a4-page');
+            if(!activePage) return;
+
+            const shape = document.createElement('div');
+            shape.className = 'custom-shape';
+            shape.style.backgroundColor = '#ffffff';
+
+            shape.innerHTML = `
+                <div class="delete-shape" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></div>
+                <div class="resize-handle"></div>
+                <textarea placeholder="نوسین بنووسە..."></textarea>
+            `;
+
+            activePage.appendChild(shape);
+            makeUnrestrictedDraggable(shape);
+            makeResizable(shape);
+        }
+
+        function updateSelectedShapeBg(color) {
+            if (activeElement && activeElement.closest('.custom-shape')) {
+                activeElement.closest('.custom-shape').style.backgroundColor = color;
+            }
+        }
+
+        function makeUnrestrictedDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                if (e.target.tagName === 'TEXTAREA' || e.target.classList.contains('delete-shape') || e.target.classList.contains('resize-handle')) {
+                    activeElement = e.target;
+                    return;
+                }
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        /* Allows the user to resize a custom shape by dragging its bottom-left handle */
+        function makeResizable(elmnt) {
+            const handle = elmnt.querySelector('.resize-handle');
+            if (!handle) return;
+
+            let startX = 0, startY = 0, startWidth = 0, startHeight = 0, startLeft = 0;
+
+            handle.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                activeElement = handle;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = elmnt.offsetWidth;
+                startHeight = elmnt.offsetHeight;
+                startLeft = elmnt.offsetLeft;
+                document.onmousemove = resizeMove;
+                document.onmouseup = stopResize;
+            });
+
+            function resizeMove(e) {
+                e.preventDefault();
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+
+                const newWidth = Math.max(60, startWidth - deltaX);
+                const newHeight = Math.max(40, startHeight + deltaY);
+
+                elmnt.style.width = newWidth + 'px';
+                elmnt.style.height = newHeight + 'px';
+                elmnt.style.left = (startLeft + (startWidth - newWidth)) + 'px';
+            }
+
+            function stopResize() {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+        }
+
+        /* Advanced Calculator Logic */
+        function calcInput(val) {
+            const display = document.getElementById('calcDisplay');
+            if (display.value === '0' || display.value === 'Error') {
+                display.value = val;
+            } else {
+                display.value += val;
+            }
+        }
+
+        function clearCalc() {
+            document.getElementById('calcDisplay').value = '0';
+        }
+
+        function backspaceCalc() {
+            const display = document.getElementById('calcDisplay');
+            if (display.value.length > 1 && display.value !== 'Error') {
+                display.value = display.value.slice(0, -1);
+            } else {
+                display.value = '0';
+            }
+        }
+
+        function calcMath(func) {
+            const display = document.getElementById('calcDisplay');
+            try {
+                let val = eval(display.value);
+                if(func === 'sqrt') display.value = Math.sqrt(val);
+            } catch {
+                display.value = 'Error';
+            }
+        }
+
+        function calcResult() {
+            const display = document.getElementById('calcDisplay');
+            try {
+                display.value = eval(display.value);
+            } catch {
+                display.value = 'Error';
+            }
+        }
+
+        function showAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+    </script>    <!-- Custom Dialog Modal (replaces native alert/confirm/prompt popups) -->
+    <div class="modal" id="customDialogModal">
+        <div class="modal-content" style="width: 380px;">
+            <i class="fa-solid fa-circle-info" style="font-size: 2.5rem; color: var(--accent-yellow); margin-bottom: 10px;"></i>
+            <p id="customDialogMessage" style="line-height: 1.6; margin-bottom: 15px;"></p>
+            <input type="text" id="customDialogInput" style="display:none; width:100%; box-sizing:border-box; padding:8px 10px; border-radius:6px; border:1px solid #444; background:#181818; color:#fff; margin-bottom:15px; text-align:right; font-size:0.9rem;">
+            <div class="btn-row">
+                <button class="btn" id="customDialogCancelBtn" style="display:none;">پاشگەزبوونەوە</button>
+                <button class="btn btn-primary" id="customDialogOkBtn">باشە</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
